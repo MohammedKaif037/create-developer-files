@@ -662,47 +662,5 @@ volumes:
   },
   
   // CI/CD
-  {
-    id: "github-workflow",
-    name: ".github/workflows/ci.yml",
-    content: `name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-
-    steps:
-    - uses: actions/checkout@v3
-\
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    - name: Install dependenciesun: npm ci
-      run: npm ci
-      
-    - name: Run linter
-      run: npm run lint
-      
-    - name: Run tests
-      run: npm test
-      
-    - name: Build
-      run: npm run build`,
-    language: "yaml",
-    description: "GitHub Actions CI workflow",
-    category: "CI/CD"
-  },
 ];
