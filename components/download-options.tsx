@@ -16,8 +16,10 @@ export function DownloadOptions({ files }: DownloadOptionsProps) {
   const [isDownloading, setIsDownloading] = useState(false)
 
   const downloadSingleFile = (file: FileTemplate) => {
-    const blob = new Blob([file.content], { type: "text/plain;charset=utf-8" })
-    saveAs(blob, file.name)
+  const mimeType = getMimeType(file.name)
+  const blob = new Blob([file.content], { type: `${mimeType};charset=utf-8` })
+  saveAs(blob, file.name)
+  }
   }
 
   const downloadAllAsZip = async () => {
