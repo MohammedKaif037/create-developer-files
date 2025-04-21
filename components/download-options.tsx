@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Download, FileArchive } from "lucide-react"
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
+import { getMimeType } from "@/lib/utils"
 
 interface DownloadOptionsProps {
   files: FileTemplate[]
