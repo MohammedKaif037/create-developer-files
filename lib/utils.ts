@@ -6,6 +6,28 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function getMimeType(fileName: string): string {
+  const extension = fileName.split('.').pop()?.toLowerCase()
+  const mimeMap: Record<string, string> = {
+    js: 'application/javascript',
+    ts: 'application/typescript',
+    json: 'application/json',
+    html: 'text/html',
+    css: 'text/css',
+    md: 'text/markdown',
+    yaml: 'application/x-yaml',
+    yml: 'application/x-yaml',
+    py: 'text/x-python',
+    java: 'text/x-java-source',
+    sql: 'application/sql',
+    xml: 'application/xml',
+    txt: 'text/plain',
+  }
+
+  return mimeMap[extension || 'txt'] || 'text/plain'
+}
+
+
 export function detectLanguage(filename: string): string {
   if (!filename) return "plaintext"
 
