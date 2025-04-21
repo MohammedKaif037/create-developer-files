@@ -11,43 +11,30 @@ import { getMimeType } from "@/lib/utils"
 interface DownloadOptionsProps {
   files: FileTemplate[]
 }
-
 export function DownloadOptions({ files }: DownloadOptionsProps) {
   const [isDownloading, setIsDownloading] = useState(false)
 
   const downloadSingleFile = (file: FileTemplate) => {
-  const mimeType = getMimeType(file.name)
-  const blob = new Blob([file.content], { type: `${mimeType};charset=utf-8` })
-  saveAs(blob, file.name)
-  }
+    const mimeType = getMimeType(file.name)
+    const blob = new Blob([file.content], { type: `${mimeType};charset=utf-8` })
+    saveAs(blob, file.name)
   }
 
   const downloadAllAsZip = async () => {
     if (files.length === 0) return
-
-    try {
-      setIsDownloading(true)
-      const zip = new JSZip()
-
-      // Add all files to the zip
-      files.forEach((file) => {
-        if (file.name) {
-          zip.file(file.name, file.content)
-        }
-      })
-
-      // Generate the zip file
-      const content = await zip.generateAsync({ type: "blob" })
-      saveAs(content, "devstarter-files.zip")
-    } catch (error) {
-      console.error("Error creating zip file:", error)
-    } finally {
-      setIsDownloading(false)
-    }
+    setIsDownloading(true)
+    const zip = new JSZip()
+    files.forEach((file) => file.name && zip.file(file.name, file.content))
+    const content = await zip.generateAsync({ type: "blob" })
+    saveAs(content, "devstarter-files.zip")
+    setIsDownloading(false)
   }
 
   const hasNamedFiles = files.some((file) => file.name)
 
+  // FIX: make sure this return is INSIDE the function
+
+ 
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Download</h3>
